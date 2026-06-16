@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BR Coin Contract Address</title>
+  <style>
+    :root{
+      --bg:#f6f7fb;
+      --card:#fff;
+      --muted:#6b7280;
+      --accent:#eef2ff;
+      --note:#fff4e5;
+      --btn:#e6eefc;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    body{background:var(--bg);margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px}
+    .container{width:760px;max-width:95%}
+    .card{background:var(--card);border-radius:12px;box-shadow:0 6px 20px rgba(16,24,40,0.08);padding:28px}
+    h1{margin:0 0 18px;font-size:20px;color:#0f172a}
+    .meta{background:#f3f4f6;border-radius:8px;padding:18px;color:#111827;margin-bottom:18px}
+    .meta .row{display:flex;gap:18px;flex-wrap:wrap}
+    .field{min-width:160px}
+    .label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    .value{font-weight:600}
+    .contract-row{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap;margin-top:12px}
+    .contract-box{background:#f8fafc;border-radius:8px;padding:14px 16px;flex:1;min-width:260px;color:#0b1220;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+    .controls{display:flex;gap:12px;align-items:center;margin-top:12px}
+    button.copy{background:var(--btn);border:1px solid #dbeafe;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+    .status{color:var(--muted);font-size:13px;margin-top:10px}
+    .note{background:var(--note);border-radius:8px;padding:12px 14px;margin-top:18px;border:1px solid rgba(0,0,0,0.03);color:#92400e}
+    .small{font-size:13px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card" role="region" aria-label="BR Coin Contract Address card">
+      <h1>BR Coin Contract Address</h1>
+
+      <div class="meta" aria-hidden="false">
+        <div class="row">
+          <div class="field">
+            <span class="label">Name</span>
+            <div class="value">BR Coin</div>
+          </div>
+
+          <div class="field">
+            <span class="label">Symbol</span>
+            <div class="value">BRCOIN</div>
+          </div>
+
+          <div class="field">
+            <span class="label">Decimals</span>
+            <div class="value">18</div>
+          </div>
+
+          <div class="field">
+            <span class="label">Network</span>
+            <div class="value">Sepolia</div>
+          </div>
+        </div>
+
+        <div class="contract-row" style="margin-top:14px;">
+          <div>
+            <span class="label">Contract</span>
+            <div class="contract-box" id="contractText">0x2b6D831193948D86E75A72cc89951816f96A75F6</div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+            <button class="copy" id="copyBtn" aria-label="Copy contract address">Copy Contract Address</button>
+            <div class="small" id="readyText">Ready to copy contract address.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note" role="note">
+        Use this address for manual token import in your wallet.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const contractEl = document.getElementById('contractText');
+      const copyBtn = document.getElementById('copyBtn');
+      const readyText = document.getElementById('readyText');
+      const addr = contractEl.textContent.trim();
+
+      async function copyAddress() {
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(addr);
+          } else {
+            const ta = document.createElement('textarea');
+            ta.value = addr;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            ta.remove();
+          }
+          readyText.textContent = 'Copied!';
+          setTimeout(() => readyText.textContent = 'Ready to copy contract address.', 2000);
+        } catch (e) {
+          readyText.textContent = 'Copy failed';
+          setTimeout(() => readyText.textContent = 'Ready to copy contract address.', 2000);
+        }
+      }
+
+      copyBtn.addEventListener('click', copyAddress);
+      contractEl.addEventListener('click', copyAddress);
+    })();
+  </script>
+</body>
+</html>
